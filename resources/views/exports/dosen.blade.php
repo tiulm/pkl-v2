@@ -1,0 +1,28 @@
+<table>
+    <thead>
+        <tr>
+            <th>NIP</th>
+            <th>nama</th>
+            <th>nidn</th>
+            <th>pendidikan_terakhir</th>
+            <th>status</th>
+            <th>jabatan</th>
+            <th>nomor_telepon</th>
+            <th>email</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach($datas as $data)
+            <tr>
+                <td>{{$data->NIP}}</td>
+                <td>{{$data->name}}</td>
+                <td>{{$data->NIDN}}</td>
+                <td>{{$data->last_education}}</td>
+                <td>{{$data->status}}</td>
+                <td>{{$data->jabatan}}</td>
+                <td>{{$data->phone_number}}</td>
+                <td>{{$data->email}}</td>
+            </tr>
+        @endforeach
+    </tbody>
+</table>

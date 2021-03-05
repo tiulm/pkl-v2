@@ -1,0 +1,30 @@
+<table>
+    <thead>
+        <tr>
+            <th>NIM</th>
+            <th>nama</th>
+            <th>status</th>
+            <th>jenis_kelamin</th>
+            <th>angkatan</th>
+            <th>ip_semester</th>
+            <th>sks_semester</th>
+            <th>ipk</th>
+            <th>sks_total</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach($datas as $data)
+            <tr>
+                <td>{{(string) $data->nim}}</td>
+                <td>{{$data->name}}</td>
+                <td>{{$data->status}}</td>
+                <td>{{$data->gender}}</td>
+                <td>{{$data->angkatan}}</td>
+                <td>{{$data->ip_sem}}</td>
+                <td>{{$data->sks_sem}}</td>
+                <td>{{$data->ipk}}</td>
+                <td>{{$data->sks_total}}</td>
+            </tr>
+        @endforeach
+    </tbody>
+</table>
