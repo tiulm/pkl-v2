@@ -160,17 +160,18 @@
                             <tr>
                                 <td width="20%">Judul PK</td>
                                 <td width="5%">:</td>
-                                <td>{{ $groupProject->title }}</td>
+                                <td align="justify">{{ $groupProject->title }}</td>
                             </tr>
+                            @php $values = explode(" ", $groupProject->GroupProjectSchedule->Term->term); @endphp
                             <tr>
                                 <td width="20%">Semester</td>
                                 <td width="5%">:</td>
-                                <td></td>
+                                <td>{{ $values[0] }}</td>
                             </tr>
                             <tr>
                                 <td width="20%">Tahun Akademik</td>
                                 <td width="5%">:</td>
-                                <td></td>
+                                <td>{{ $values[1] }}</td>
                             </tr>
                         </table>
                     </div>
@@ -196,7 +197,7 @@
                         </table>
                     </div>
                     <div class="mt-10">
-                        <div>Setelah diadakan Pengujian dan Rapat Tim Penguji, diambil kesimpulan bahwa Seminar Proyek Kelompok tersebut di atas dinyatakan<sup>#</sup>)</div>
+                        <div align="justify">Setelah diadakan Pengujian dan Rapat Tim Penguji, diambil kesimpulan bahwa Seminar Proyek Kelompok tersebut di atas dinyatakan<sup>#</sup>)</div>
                         <ul style="list-style-type:circle">
                             <li>Diterima tanpa perbaikan;</li>
                             <li>Diterima dengan perbaikan (Catatan Revisi terlampir);</li>
@@ -262,7 +263,7 @@
                             <tr>
                                 <td width="20%">Judul</td>
                                 <td width="5%">:</td>
-                                <td>{{ $groupProject->title }}</td>
+                                <td align="justify">{{ $groupProject->title }}</td>
                             </tr>
                             <tr>
                                 <td width="20%">Kelompok</td>
@@ -285,7 +286,7 @@
                             <tr>
                                 <th colspan="2">
                                     Tim Pembahas <br> <br>
-                                    Ketua Penguji / Penguji I
+                                    {{ $examiners[0]->role }}
                                     <br> <br> <br> <br> <br>
                                     {{ $examiners[0]->Lecturer->name }} <br>
                                     NIP. {{ $examiners[0]->Lecturer->NIP }}
@@ -295,13 +296,13 @@
                             </tr>
                             <tr>
                                 <th width="50%">
-                                    Penguji II
+                                    {{ $examiners[1]->role }}
                                     <br> <br> <br> <br> <br>
                                     {{ $examiners[1]->Lecturer->name }} <br>
                                     NIP. {{ $examiners[1]->Lecturer->NIP }}
                                 </th>
                                 <th width="50%">
-                                    Penguji III
+                                    {{ $examiners[2]->role }}
                                     <br> <br> <br> <br> <br>
                                     {{ $examiners[2]->Lecturer->name }} <br>
                                     NIP. {{ $examiners[2]->Lecturer->NIP }}
@@ -335,19 +336,19 @@
                     SIDANG PROYEK KELOMPOK
                 </div>
                 <div class="mt-25">
-                    <table width="100%" style="margin: 0px 20px">
+                    <table width="95%" style="margin: 0px 20px">
                         <tr>
                             <td width="20%">Judul</td>
                             <td width="5%">:</td>
-                            <td>
+                            <td align="justify">
                                 {{ $groupProject->title }}
                             </td>
                         </tr>
                     </table>
-                    <div style="margin: 5px 0px">
-                        Menyatakan bahwa mahasiswa yang tersebut di atas telah melaksanakan Proyek Kelompok di Semester <span style="padding:0px 80px"></span> pada:
+                    <div align="justify" style="margin: 5px 0px">
+                        Menyatakan bahwa mahasiswa yang tersebut di atas telah melaksanakan Proyek Kelompok di Semester {{ $groupProject->GroupProjectSchedule->Term->term }} pada:
                     </div>
-                    <table width="100%" style="margin: 0px 20px">
+                    <table width="95%" style="margin: 0px 20px">
                         <tr>
                             <td width="20%">Hari, tgl.</td>
                             <td width="5%">:</td>
@@ -424,8 +425,8 @@
                 </div>
                 <div class="mt-10">
                     <ul>
-                        <li>Keterangan: A (80-100), A- (77-79), B+ (75-77), B (70-74), B- (67-69), C+ (64-66), C (60-63), atau Tidak Lulus (kurang dari 60).</li>
-                        <li>Nilai akhir bagi masing-masing mahasiswa adalah 50% dari Penilaian Kelompok dan 50% dari Penilaian Individu</li>
+                        <li align="justify">Keterangan: A (80-100), A- (77-79), B+ (75-77), B (70-74), B- (67-69), C+ (64-66), C (60-63), atau Tidak Lulus (kurang dari 60).</li>
+                        <li align="justify">Nilai akhir bagi masing-masing mahasiswa adalah 50% dari Penilaian Kelompok dan 50% dari Penilaian Individu</li>
                     </ul>
                 </div>
                 <div class="mt-25">
@@ -435,7 +436,7 @@
                             </td>
                             <td width="50%">
                                 Banjarmasin, {{ $groupProject->GroupProjectSchedule->tanggal }} <br>
-                                Ketua Tim Penguji / Penguji I,
+                                {{ $examiners[0]->role }},
                             </td>
                         </tr>
                         <tr>
@@ -481,19 +482,19 @@
                     SIDANG PROYEK KELOMPOK
                 </div>
                 <div class="mt-25">
-                    <table width="100%" style="margin: 0px 20px">
+                    <table width="95%" style="margin: 0px 20px">
                         <tr>
                             <td width="20%">Judul</td>
                             <td width="5%">:</td>
-                            <td>
+                            <td align="justify">
                                 {{ $groupProject->title }}
                             </td>
                         </tr>
                     </table>
-                    <div style="margin: 5px 0px">
-                        Menyatakan bahwa mahasiswa yang tersebut diatas telah melaksanakan Proyek Kelompok di Semester <span style="padding:0px 80px"></span> pada:
+                    <div align="justify" style="margin: 5px 0px">
+                        Menyatakan bahwa mahasiswa yang tersebut diatas telah melaksanakan Proyek Kelompok di Semester {{ $groupProject->GroupProjectSchedule->Term->term }} pada:
                     </div>
-                    <table width="100%" style="margin: 0px 20px">
+                    <table width="95%" style="margin: 0px 20px">
                         <tr>
                             <td width="20%">Hari, tgl.</td>
                             <td width="5%">:</td>
@@ -571,8 +572,8 @@
                 </div>
                 <div class="mt-10">
                     <ul>
-                        <li>Keterangan: A (80-100), A- (77-79), B+ (75-77), B (70-74), B- (67-69), C+ (64-66), C (60-63), atau Tidak Lulus (kurang dari 60).</li>
-                        <li>Nilai akhir bagi masing-masing mahasiswa adalah 50% dari Penilaian Kelompok dan 50% dari Penilaian Individu</li>
+                        <li align="justify">Keterangan: A (80-100), A- (77-79), B+ (75-77), B (70-74), B- (67-69), C+ (64-66), C (60-63), atau Tidak Lulus (kurang dari 60).</li>
+                        <li align="justify">Nilai akhir bagi masing-masing mahasiswa adalah 50% dari Penilaian Kelompok dan 50% dari Penilaian Individu</li>
                     </ul>
                 </div>
                 <div class="mt-25">
@@ -582,7 +583,7 @@
                             </td>
                             <td width="50%">
                                 Banjarmasin, {{ $groupProject->GroupProjectSchedule->tanggal }} <br>
-                                Penguji II,
+                                {{ $examiners[1]->role }},
                             </td>
                         </tr>
                         <tr>
@@ -628,19 +629,19 @@
                     SIDANG PROYEK KELOMPOK
                 </div>
                 <div class="mt-25">
-                    <table width="100%" style="margin: 0px 20px">
+                    <table width="95%" style="margin: 0px 20px">
                         <tr>
                             <td width="20%">Judul</td>
                             <td width="5%">:</td>
-                            <td>
+                            <td align="justify">
                                 {{ $groupProject->title }}
                             </td>
                         </tr>
                     </table>
-                    <div style="margin: 5px 0px">
-                        Menyatakan bahwa mahasiswa yang tersebut diatas telah melaksanakan Proyek Kelompok di Semester <span style="padding:0px 80px"></span> pada:
+                    <div align="justify" style="margin: 5px 0px">
+                        Menyatakan bahwa mahasiswa yang tersebut diatas telah melaksanakan Proyek Kelompok di Semester {{ $groupProject->GroupProjectSchedule->Term->term }} pada:
                     </div>
-                    <table width="100%" style="margin: 0px 20px">
+                    <table width="95%" style="margin: 0px 20px">
                         <tr>
                             <td width="20%">Hari, tgl.</td>
                             <td width="5%">:</td>
@@ -718,8 +719,8 @@
                 </div>
                 <div class="mt-10">
                     <ul>
-                        <li>Keterangan: A (80-100), A- (77-79), B+ (75-77), B (70-74), B- (67-69), C+ (64-66), C (60-63), atau Tidak Lulus (kurang dari 60).</li>
-                        <li>Nilai akhir bagi masing-masing mahasiswa adalah 50% dari Penilaian Kelompok dan 50% dari Penilaian Individu</li>
+                        <li align="justify">Keterangan: A (80-100), A- (77-79), B+ (75-77), B (70-74), B- (67-69), C+ (64-66), C (60-63), atau Tidak Lulus (kurang dari 60).</li>
+                        <li align="justify">Nilai akhir bagi masing-masing mahasiswa adalah 50% dari Penilaian Kelompok dan 50% dari Penilaian Individu</li>
                     </ul>
                 </div>
                 <div class="mt-25">
@@ -729,7 +730,7 @@
                             </td>
                             <td width="50%">
                                 Banjarmasin, {{ $groupProject->GroupProjectSchedule->tanggal }} <br>
-                                Penguji III,
+                                {{ $examiners[2]->role }},
                             </td>
                         </tr>
                         <tr>
@@ -782,7 +783,7 @@
                             <tr>
                                 <td width="20%">Judul</td>
                                 <td width="5%">:</td>
-                                <td>{{ $groupProject->title }}</td>
+                                <td align="justify">{{ $groupProject->title }}</td>
                             </tr>
                             <tr>
                                 <td width="20%">Penyusun</td>

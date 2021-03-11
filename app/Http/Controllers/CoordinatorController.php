@@ -7,6 +7,7 @@ use App\InternshipStudent;
 use App\GroupProject;
 use App\Agency;
 use App\File;
+use App\Term;
 use App\Lecturer;
 use App\GroupProjectSupervisor;
 use App\InternshipStudentJobdesc;
@@ -32,8 +33,9 @@ class CoordinatorController extends Controller
     public function project_team()
     {
         $lecture = Lecturer::All();
+        $term = Term::All();
         $daftar = GroupProject::where('is_verified', '0')->count();
-        return view('coordinator.project_team', compact('lecture', 'daftar'));
+        return view('coordinator.project_team', compact('lecture', 'daftar', 'term'));
     }
 
     public function seminar()
@@ -75,6 +77,7 @@ class CoordinatorController extends Controller
         $GroupProject->save();
         $verif = GroupProject::findOrFail($id);
         $verif->is_verified = $request->is_verified + '1';
+        $verif->term_id = $request->tahunAjaran;
         $quota = Lecturer::find($request->supervisor);
         $bimbingan = $quota->quota + 1;
         $quota->update(['quota' => $bimbingan]);
@@ -87,11 +90,29 @@ class CoordinatorController extends Controller
 
     public function getVerified()
     {
-        $verified = GroupProject::with(['Agency', 'GroupProjectSupervisor' => function ($ccd) {
+        $verified = GroupProject::with(['Agency', 'Term', 'GroupProjectSupervisor' => function ($ccd) {
             $ccd->with('Lecturer');
         }, 'InternshipStudents' => function ($abc) {
             $abc->with('User');
         }])->where('is_verified', '1')->get();
+        return response()->json(['data' => $verified]);
+    }
+
+    public function getFiltered($id)
+    {
+        if ($id != 0) {
+            $verified = GroupProject::with(['Agency', 'Term', 'GroupProjectSupervisor' => function ($ccd) {
+                $ccd->with('Lecturer');
+            }, 'InternshipStudents' => function ($abc) {
+                $abc->with('User');
+            }])->where('is_verified', '1')->where('term_id', $id)->get();
+        } else{
+            $verified = GroupProject::with(['Agency', 'Term', 'GroupProjectSupervisor' => function ($ccd) {
+                $ccd->with('Lecturer');
+            }, 'InternshipStudents' => function ($abc) {
+                $abc->with('User');
+            }])->where('is_verified', '1')->get();
+        }
         return response()->json(['data' => $verified]);
     }
 
@@ -122,6 +143,8 @@ class CoordinatorController extends Controller
         foreach ($groupProject->InternshipStudents as $udin) {
             InternshipStudentJobdesc::whereInternshipStudentId($udin->id)->delete();
             File::whereInternshipStudentId($udin->id)->delete();
+            $udin->status = "A";
+            $udin->update();
         }
 
         $groupProject->delete();
@@ -131,7 +154,8 @@ class CoordinatorController extends Controller
     {
         $groupProject = GroupProject::with('GroupProjectSupervisor.Lecturer')->findOrFail($id);
         $dosen = Lecturer::get();
-        return response()->json(['data' => $groupProject, 'dosen' => $dosen]);
+        $term = Term::get();
+        return response()->json(['data' => $groupProject, 'dosen' => $dosen, 'term' => $term]);
     }
 
     public function updateSupervisor(Request $request, $id)
@@ -147,6 +171,7 @@ class CoordinatorController extends Controller
         $quota = \DB::table('lecturers')
             ->where('id', '=', $request->supervisor)
             ->increment('quota');
+        $groupProject->term_id = $request->editTerm;
         if ($groupProject->save()) {
             return response()->json("success");
         }

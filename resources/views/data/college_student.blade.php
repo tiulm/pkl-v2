@@ -43,6 +43,7 @@
                             <th>Profil</th>
                             <th>Nama</th>
                             <th>Angkatan</th>
+                            <th>Riwayat Seminar</th>
                             <th>Status</th>
                             <th></th>
                         </tr>
@@ -80,6 +81,10 @@
                         <div class="form-group col-12">
                             <label>Angkatan</label>
                             <input type="number" class="form-control" id="angkatan" name="angkatan">
+                        </div>
+                        <div class="form-group col-12">
+                            <label>Riwayat Seminar</label>
+                            <input type="number" class="form-control" id="riwayat" name="riwayat">
                         </div>
                         <div class="form-group col-6">
                             <label>Jenis Kelamin</label>
@@ -165,6 +170,10 @@
                         <div class="form-group col-12">
                             <label>Angkatan</label>
                             <input type="number" class="form-control" id='editangkatan' name="editangkatan" value="">
+                        </div>
+                        <div class="form-group col-12">
+                            <label>Riwayat Seminar</label>
+                            <input type="number" class="form-control" id='editriwayat' name="editriwayat" value="">
                         </div>
                         <div class="form-group col-6">
                             <label>Jenis Kelamin</label>
@@ -324,6 +333,13 @@
                 data: "angkatan"
             },
             {
+                sortable: true,
+                "render": function (data, type, full, meta) {
+                    riwayat = full.history
+                    return riwayat + full.observer.length
+                }
+            },
+            {
                 sortable: false,
                 "render": function (data, type, full, meta) {
                     if (full.status == "A") {
@@ -361,6 +377,7 @@
                 $('#editnim').val(result.data.nim);
                 $('#editname').val(result.data.name);
                 $('#editangkatan').val(result.data.angkatan);
+                $('#editriwayat').val(result.data.history);
                 $('#college_id').val(result.data.id);
                 $('#editipSemester').val(result.data.ip_sem);
                 $('#editsksSemester').val(result.data.sks_sem);

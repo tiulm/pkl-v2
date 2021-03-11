@@ -19,8 +19,8 @@
                 <table id="registration" class="table table-striped projects dataTable w-100">
                     <thead>
                         <tr>
-                            <th width='20%'>Kelompok</th>
-                            <th width='60%'>Instansi</th>
+                            <th width='25%'>Kelompok</th>
+                            <th width='55%'>Instansi</th>
                             <th width='10%'>Lihat</th>
                             <th width='10%'>Aksi</th>
                         </tr>
@@ -39,14 +39,24 @@
                 </h3>
             </div>
             <div class="card-body table-responsive">
+                    <div class="form-group">
+                        <label>Tahun Ajaran</label>
+                        <select name="filterTA" id="filterTA" class="form-control">
+                            <option value="0">Pilih Tahun Ajaran...</option>
+                            @foreach($term as $semester)
+                            <option id="getFilterTA" value="{{$semester->id}}">{{$semester->term}}</option>
+                            @endforeach
+                        </select>
+                    </div>
                 <table id="mahasiswa-pk" class="table table-striped projects w-100">
                     <thead>
                         <tr>
-                            <th width='20%'>Kelompok</th>
-                            <th width="35%">Instansi</th>
+                            <th width="15%">Tahun Ajaran</th>
+                            <th width='25%'>Kelompok</th>
+                            <th width="25%">Instansi</th>
                             <th width="25%">Pembimbing</th>
-                            <th width='10%'>Lihat</th>
-                            <th width='10%'>Aksi</th>
+                            <th width='5%'>Lihat</th>
+                            <th width='5%'>Aksi</th>
                         </tr>
                     </thead>
                 </table>
@@ -146,7 +156,8 @@
                         <input type="hidden" name="groupProject" id="groupProject_id" value="">
                         <input type="hidden" id="_method" value="PUT" name="_method">
                         <label>Dosen Pembimbing</label>
-                        <select name="supervisor" id="editSupervisor" class="form-control" style="width: 100%;">
+                        <select name="supervisor" id="editSupervisor" class="form-control" required style="width: 100%;">
+                        <option required value="">Pilih Dosen Pembimbing...</option>
                             @foreach($lecture as $lecturer)
                             @if($lecturer->quota >= 4)
                             <option class="editLecturer bg-danger" value="{{$lecturer->id}}"> {{$lecturer->name}} - Banyak Bimbingan: {{$lecturer->quota}}</option>
@@ -155,6 +166,15 @@
                             @else
                             <option class="editLecturer" value="{{$lecturer->id}}"> {{$lecturer->name}} - Banyak Bimbingan: {{$lecturer->quota}}</option>
                             @endif
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Tahun Ajaran</label>
+                        <select name="tahunAjaran" id="edittahunAjaran" class="form-control" required style="width: 100%;">
+                            <option required value="">Pilih Tahun Ajaran...</option>
+                            @foreach($term as $semester)
+                            <option value="{{$semester->id}}">{{$semester->term}}</option>
                             @endforeach
                         </select>
                     </div>
@@ -188,6 +208,12 @@
                         <input type="hidden" id="_method" value="PUT" name="_method">
                         <label>Dosen Pembimbing</label>
                         <select name="supervisor" id="editPembimbing" class="form-control" style="width: 100%;">
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Tahun Ajaran</label>
+                        <select name="editTerm" id="editTerm" class="form-control" style="width: 100%;">
+                            <option value="">Pilih Tahun Ajaran...</option>
                         </select>
                     </div>
                 </div>
@@ -269,7 +295,7 @@
                 "render": function(data, type, full, meta) {
                     let img = ''
                     for (let i = 0; i < full.internship_students.length; i++) {
-                        img += '<a href=../public/image/' + full.internship_students[i].user.image_profile + ' target="_blank"><img src="../public/image/' + full.internship_students[i].user.image_profile + '" data-toggle="tooltip" data-placement="bottom" class="table-avatar m-1" title="' + full.internship_students[i].name + '"></a>'
+                        img += '<text>'+ full.internship_students[i].name +'</text><br>'
                     }
                     return img
                 }
@@ -350,6 +376,7 @@
             url: "../koor/getIsVerif/" + id,
             success: function(result) {
                 $('#is_verified').val(result.data.is_verified)
+                $('#edittahunAjaran').val(result.data.term_id)
                 $('#groupProject_id').val(result.data.id)
             }
         })
@@ -434,17 +461,73 @@
             }
         })
     });
+    
+    $("#filterTA").on('change', function(){
+        let id = $('#filterTA').val();
+        $("#mahasiswa-pk").DataTable({
+            "processing": true,
+            "group": 1,
+            "destroy": true,
+            "ajax": {
+                url: '../koor/getDataFiltered/'+id,
+            },
+            "columns": [
+                {
+                    data: "term.term"
+                },
+                {
+                    sortable: false,
+                    "render": function(data, type, full, meta) {
+                        let img = ''
+                        for (let i = 0; i < full.internship_students.length; i++) {
+                            img += '<text>'+ full.internship_students[i].name +'</text><br>'
+                        }
+                        return img
+                    }
+                },
+                {
+                    data: "agency.agency_name"
+                },
+                {
+                    data: "group_project_supervisor.lecturer.name"
+                },
+                {
+                    sortable: false,
+                    "render": function(data, type, full, meta) {
+                        let buttonId = full.id;
+                        return '<a href="../berkas/kak/'+full.kak+'" target="_blank" class="btn btn-block btn-sm btn-primary m-1" title="Kerangka Acuan Kerja">Kerangka</a>' +
+                        '<button id="' + buttonId + '" class="btn btn-block btn-sm btn-info detail m-1" title="Detail">Detail</button>'
+                    }
+                },
+                {
+                    sortable: false,
+                    "render": function(data, type, full, meta) {
+                        let buttonId = full.id;
+                        return '<button id="' + buttonId + '" class="btn btn-block btn-sm btn-warning edit m-1" title="Edit">Edit</button>' +
+                            '<button id="' + buttonId + '" class="btn btn-block btn-sm btn-danger hapus m-1" title="Hapus">Hapus</button>'
+                    }
+                }
+            ]
+        });
+    });
+
     $("#mahasiswa-pk").DataTable({
         "processing": true,
+        "group": 1,
+        destroy: true,
         "ajax": {
-            url: "{{ url('../koor/getDataVerified') }}"
+            url: '../koor/getDataVerified',
         },
-        "columns": [{
+        "columns": [
+            {
+                data: "term.term"
+            },
+            {
                 sortable: false,
                 "render": function(data, type, full, meta) {
                     let img = ''
                     for (let i = 0; i < full.internship_students.length; i++) {
-                        img += '<a href=../public/image/' + full.internship_students[i].user.image_profile + ' target="_blank"><img src="../public/image/' + full.internship_students[i].user.image_profile + '" data-toggle="tooltip" data-placement="bottom" class="table-avatar m-1" title="' + full.internship_students[i].name + '"></a>'
+                        img += '<text>'+ full.internship_students[i].name +'</text><br>'
                     }
                     return img
                 }
@@ -539,7 +622,11 @@
                         $('#editPembimbing').append('<option class="editLecturer" value="'+dosenId[i]+'"> '+dosenName[i]+' - Banyak Bimbingan: '+dosenQuota[i]+'</option>')
                     }
                 }
+                for(j=0; j<result.term.length; j++){
+                    $('#editTerm').append('<option class="editSemester" value="'+result.term[j].id+'">'+result.term[j].term+'</option>')
+                }
 
+                $('#editTerm').val(result.data.term_id)
                 $('#editPembimbing').val(result.data.group_project_supervisor.lecturer_id)
             }
         })

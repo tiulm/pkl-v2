@@ -26,11 +26,14 @@ Route::group(['middleware' => ['auth', 'role:mahasiswa']], function() {
         Route::get('pk', 'GroupProjectProgressController@indexPK')->name('progress-pk');
         Route::post('pk/tambahProgress', 'GroupProjectProgressController@storePK');
         Route::post('pk/hapusProgress', 'GroupProjectProgressController@destroyPK');
+        Route::get('pk/cetakProgressPK/{id}', 'GroupProjectProgressController@cetakPK');
         Route::get('pkl', 'GroupProjectProgressController@indexPKL')->name('progress-pkl');
         Route::post('pkl/tambahProgress', 'GroupProjectProgressController@storePKL');
         Route::post('pkl/hapusProgress', 'GroupProjectProgressController@destroyPKL');
         Route::post('pkl/tambahLog', 'GroupProjectProgressController@storeLog');
         Route::post('pkl/hapusLog', 'GroupProjectProgressController@destroyLog');
+        Route::get('pkl/cetakProgressPKL/{id}', 'GroupProjectProgressController@cetakPKL');
+        Route::get('pkl/cetakLog/{id}', 'GroupProjectProgressController@cetakLog');
         Route::get('seminar', 'AgendaController@index')->name('agenda.list');
         Route::get('seminar/show', 'AgendaController@get');
         Route::get('mahasiswa-cek', 'GroupProjectController@show')->name('mahasiswa.index');
@@ -67,6 +70,7 @@ Route::group(['middleware' => ['auth', 'role:koordinator']], function() {
 
         Route::get('bimbingan', 'GroupProjectProgressController@index')->name('bimbingan-list');
         Route::get('bimbingan/show', 'GroupProjectProgressController@show');
+        Route::get('bimbingan/showFiltered/{id}', 'GroupProjectProgressController@showFiltered');
         Route::get('bimbingan/pk/{id}', 'GroupProjectProgressController@showPK');
         Route::get('bimbingan/pkl/{id}', 'GroupProjectProgressController@intern')->name('pkl-list');
         Route::get('bimbingan/pkl/progress/{mhs_id}', 'GroupProjectProgressController@showPKL');
@@ -87,6 +91,7 @@ Route::group(['middleware' => ['auth', 'role:koordinator']], function() {
         Route::get('detailArsip/{id}', 'SeminarController@detailArsip');
         Route::get('getDataTablePK', 'CoordinatorController@get');
         Route::get('getDataVerified', 'CoordinatorController@getVerified');
+        Route::get('getDataFiltered/{id}', 'CoordinatorController@getFiltered');
         Route::get('getDataTableVerif/{id}', 'CoordinatorController@getVerif');
         Route::get('getIsVerif/{id}', 'CoordinatorController@getIsVerif');
         Route::put('getIsVerif/{id}/edit', 'CoordinatorController@verifikasi');
@@ -110,6 +115,20 @@ Route::group(['middleware' => ['auth', 'role:koordinator']], function() {
         Route::get('absen/{id}', 'AgendaController@absen')->name('absen-seminar');
         Route::post('batalHadir', 'AgendaController@destroyFromKoor');
         Route::get('news-report-document/{id}', 'NewsReportController@show');
+        Route::get('nilai/{id}', 'AssessmentController@show');
+        Route::post('nilai/{id}/store', 'AssessmentController@store');
+        Route::get('rekapNilai', 'AssessmentController@index');
+        Route::get('rekapNilai/get', 'AssessmentController@get');
+        Route::get('rekapNilai/getFiltered/{id}', 'AssessmentController@getFiltered');
+        Route::post('rekapNilai/export', 'AssessmentController@export');
+        Route::get('rekapPembimbing', 'GroupProjectSupervisorController@index');
+        Route::get('rekapPembimbing/get', 'GroupProjectSupervisorController@get');
+        Route::get('rekapPembimbing/getFiltered/{id}', 'GroupProjectSupervisorController@getFiltered');
+        Route::post('rekapPembimbing/export', 'GroupProjectSupervisorController@export');
+        Route::get('rekapPenguji', 'GroupProjectExaminerController@index');
+        Route::get('rekapPenguji/get', 'GroupProjectExaminerController@get');
+        Route::get('rekapPenguji/getFiltered/{id}', 'GroupProjectExaminerController@getFiltered');
+        Route::post('rekapPenguji/export', 'GroupProjectExaminerController@export');
         //route CRUD
         Route::get('/rekomendasi','RekomendasiController@index');
         Route::post('/rekomendasi/store','RekomendasiController@store');
@@ -150,6 +169,8 @@ Route::group(['middleware' => ['auth', 'role:admin']], function() {
         Route::get('exportMhs', 'AdminController@exportMhs');
         Route::get('exportDosen', 'AdminController@exportDosen');
         Route::get('exportJobdesc', 'AdminController@exportJobdesc');
+        Route::get('semester', 'TermController@index')->name('term-list');
+        Route::post('semester/store', 'TermController@store');
         });
     });
         // user

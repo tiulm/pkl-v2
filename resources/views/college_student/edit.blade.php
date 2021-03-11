@@ -271,34 +271,42 @@
 
             <!-- Lanjut Card Body -->
             <div class="card-body table-responsive">
-                <table id="mahasiswa" class="table table-striped w-100">
+                <table id="mahasiswa" class="table dataTable table-striped w-100">
                     <thead>
                         <tr>
-                            <th>NIM</th>
-                            <th>Profil</th>
-                            <th>Nama</th>
-                            <th>Jobdesc</th>
-                            <th>Aksi</th>
+                            <th width="10%">NIM</th>
+                            <th width="20%">Nama</th>
+                            <th width="20%">Jobdesc</th>
+                            <th width="40%">Judul PKL</th>
+                            <!-- @if ($pk->Assessment->count() != 0)
+                            <th width="5%">Nilai Angka</th>
+                            <th width="5%">Nilai Huruf</th>
+                            @else -->
+                            <!-- @endif -->
+                            <th width="5%">Riwayat Seminar</th>
+                            <th width="5%">Aksi</th>
                         </tr>
                     </thead>
                     <tbody>
                         @foreach ($pk->InternshipStudents as $i)
                         <tr>
                             <td>{{ $i->nim }}</td>
-                            <td>
-                                <img src="/public/image/{{ $i->User->image_profile }}" data-toggle="tooltip"
-                                    data-placement="bottom" class="img-circle table-avatar" width="40px">
-                            </td>
                             <td>{{ $i->name }}</td>
                             <td>
                                 @foreach ($i->Jobdescs as $job)
                                 {{ $job->jobname }}<br>
                                 @endforeach
                             </td>
+                            <td>{{ $i->title }}</td>
+                            <!-- @if ($pk->Assessment->count() != 0)
+                            <td>{{ $i->Assessment->final_assessment }}</td>
+                            <td>{{ $i->Assessment->grade }}</td>
+                            @else -->
+                            <!-- @endif -->
+                            <td>{{ ($i->history + $i->Observer->count()) }}</td>
                             <td>
                                 @if($pk->is_verified < 3)
-                                <button id="{{ $i->id }}" title="Edit Anggota" class="btn btn-warning mr-1 edit"><i
-                                        class="fas fa-edit"></i></button>
+                                <button id="{{ $i->id }}" title="Edit Anggota" class="btn btn-block btn-warning mr-1 edit">Edit</button>
                                 @endif
                                 @if($pk->is_verified < 2)
                                 <?php $j = 0 ?>
@@ -309,7 +317,7 @@
                                 @endforeach
                                 @if ($j != 1)
                                 <button onclick="openModalHapus(['{{ $pk->id }}', '{{ $i->id }}', '{{ $i->name }}'])"
-                                    title="Hapus Anggota" class="btn btn-danger"><i class="fas fa-trash"></i></button>
+                                    title="Hapus Anggota" class="btn btn-block btn-danger">Hapus</button>
                                 @endif
                                 @endif
                             </td>

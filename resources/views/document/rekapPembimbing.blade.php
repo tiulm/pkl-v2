@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>Daftar Hadir Seminar PKL dan PK</title>
+    <title>Rekap Pembimbing</title>
     <style>
         body {
             margin: 0;
@@ -55,7 +55,7 @@
 
         @page {
             size: A4;
-            margin: 0;
+	        margin: 0;
         }
 
         @media print {
@@ -133,57 +133,38 @@
                     </table>
                 </div>
                 <div class="page-body">
-                    <div class="page-title">DAFTAR HADIR PESERTA<br>SEMINAR PRAKTIK KERJA LAPANGAN DAN PROYEK KELOMPOK</div>
-                    <div class="mt-25">
-                        <table width="100%" style="border-collapse: separate; border-spacing: 0 5px;">
-                            <tr>
-                                <td width="20%">Hari / Tanggal</td>
-                                <td width="5%">:</td>
-                                <td>{{ $groupProject->GroupProjectSchedule->day }}, {{ $groupProject->GroupProjectSchedule->tanggal }}</td>
-                            </tr>
-                            <tr>
-                                <td width="20%">Jam / Ruang</td>
-                                <td width="5%">:</td>
-                                <td>{{ Carbon\Carbon::parse($groupProject->GroupProjectSchedule->time)->isoFormat('HH.mm') }} -
-                                    {{ Carbon\Carbon::parse($groupProject->GroupProjectSchedule->time_end)->isoFormat('HH.mm') }} WITA / {{ $groupProject->GroupProjectSchedule->place }}</td>
-                            </tr>
-                            <tr>
-                                <td width="20%">Mahasiswa / NIM</td>
-                                <td width="5%">:</td>
-                                <td>
-                                    @foreach ($groupProject->InternshipStudents as $i)
-                                    {{ $i->name }} / {{ $i->nim }}<br>
-                                    @endforeach
-                                </td>
-                            </tr>
-                            <tr>
-                                <td width="20%">Pembimbing</td>
-                                <td width="5%">:</td>
-                                <td>{{ $supervisors->Lecturer->name }}</td>
-                            </tr>
-                            <tr>
-                                <td width="20%">Judul</td>
-                                <td width="5%">:</td>
-                                <td align="justify">{{ $groupProject->title }}</td>
-                            </tr>
-                        </table>
+                    <div class="page-title" style="text-transform: uppercase;">REKAPITULASI BIMBINGAN PKL-PK<br>@if($semester != 0) {{ $term->term }} @endif</div>
+                    <div class="mt-50">
                     </div>
                     <div class="mt-25">
-                        <table class="table-info" style="margin-top:5px">
+                        <table width="100%" class="table-info">
                             <tr>
-                                <th width="5%">No.</th>
-                                <th width="50%">NAMA</th>
-                                <th width="25%">NIM</th>
-                                <th width="20%">TANDA TANGAN</th>
+                                <th align="center" style="vertical-align: middle;">No</th>
+                                <th align="center" style="vertical-align: middle;">Nama Mahasiswa</th>
+                                <th align="center" style="vertical-align: middle;">NIM</th>
+                                <th align="center" style="vertical-align: middle;">Tempat PKL</th>
+                                <th align="center" style="vertical-align: middle;">Tanggal Awal Pelaksanaan PKL</th>
+                                <th align="center" style="vertical-align: middle;">Dosen Pembimbing PKL PK</th>
                             </tr>
-                            @for ($i=1; $i < 16; $i++)
+                            @foreach ($data as $key => $d)
+                            @foreach ($d->InternshipStudents as $k => $i)
+                            @if ($k == 0)
                             <tr>
-                                <td align="center">{{ $i }}</td>
-                                <td></td>
-                                <td></td>
-                                <td @if ($i%2 == 0) align="center" @endif>{{ $i }}</td>
+                                <td align="center" rowspan="{{$d->InternshipStudents->count()}}" style="vertical-align: middle;">{{ $key+1 }}</td>
+                                <td style="vertical-align: middle;">{{ $i->name }}</td>
+                                <td style="vertical-align: middle;">{{ $i->nim }}</td>
+                                <td align="center" rowspan="{{$d->InternshipStudents->count()}}" style="vertical-align: middle;">{{ $d->Agency->agency_name }}</td>
+                                <td align="center" rowspan="{{$d->InternshipStudents->count()}}" style="vertical-align: middle;">{{ Carbon\Carbon::parse($d->start_intern)->isoFormat('D MMMM Y') }}</td>
+                                <td align="center" rowspan="{{$d->InternshipStudents->count()}}" style="vertical-align: middle;">{{ $d->GroupProjectSupervisor->Lecturer->name }}</td>
                             </tr>
-                            @endfor
+                            @else
+                            <tr>
+                                <td style="vertical-align: middle;">{{ $i->name }}</td>
+                                <td style="vertical-align: middle;">{{ $i->nim }}</td>
+                            </tr>
+                            @endif
+                            @endforeach
+                            @endforeach
                         </table>
                     </div>
                 </div>

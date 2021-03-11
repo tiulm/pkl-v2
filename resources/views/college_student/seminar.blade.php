@@ -17,9 +17,9 @@
                     <thead>
                         <tr>
                             <th width='15%'>Tanggal</th>
+                            <th width='20%'>Kelompok</th>
                             <th width='35%'>Judul</th>
                             <th width='15%'>Instansi</th>
-                            <th width='20%'>Kelompok</th>
                             <th width='5%'>Kuota Pengamat</th>
                             <th width='10%'>Aksi</th>
                         </tr>
@@ -38,18 +38,15 @@
                                 </small>
                             </td>
                             <td>
+                                @foreach($s->InternshipStudents as $i)
+                                <p>{{ $i->name }}</p>
+                                @endforeach
+                            </td>
+                            <td>
                                 {{ $s->title }}
                             </td>
                             <td>
                                 {{ $s->Agency->agency_name }}
-                            </td>
-                            <td>
-                                @foreach($s->InternshipStudents as $i)
-                                <a href="../public/image/{{ $i->User->image_profile }}" target="_blank">
-                                    <img src="../public/image/{{ $i->User->image_profile }}" data-toggle="tooltip"
-                                        data-placement="bottom" class="table-avatar m-1" title="{{ $i->name }}">
-                                </a>
-                                @endforeach
                             </td>
                             <td>
                                 @if($peserta[$j] == $s->GroupProjectSchedule->quota)

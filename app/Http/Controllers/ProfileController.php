@@ -63,7 +63,7 @@ class ProfileController extends Controller
         );
 
         if ($files = $request->file('image_profile')) {
-            $destinationPath = public_path('image/'); // upload path
+            $destinationPath = 'public/image/'; // upload path
             $profileImage = time() . "." . $files->getClientOriginalExtension();
             Image::make($files)->resize(300, 300)->save($destinationPath . $profileImage);
             $user->image_profile = $profileImage;

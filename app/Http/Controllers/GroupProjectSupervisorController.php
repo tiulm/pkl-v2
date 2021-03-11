@@ -3,7 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\GroupProjectSupervisor;
+use App\GroupProject;
+use App\Term;
 use Illuminate\Http\Request;
+use App\Exports\SupervisorExport;
+use Maatwebsite\Excel\Facades\Excel;
 
 class GroupProjectSupervisorController extends Controller
 {
@@ -14,7 +18,8 @@ class GroupProjectSupervisorController extends Controller
      */
     public function index()
     {
-        //
+        $term = Term::all();
+        return view('archive.supervisor', compact('term'));
     }
 
     /**
@@ -22,9 +27,32 @@ class GroupProjectSupervisorController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function get()
     {
-        //
+        $verified = GroupProject::with(['Agency', 'Term', 'GroupProjectSupervisor' => function ($ccd) {
+            $ccd->with('Lecturer');
+        }, 'InternshipStudents' => function ($abc) {
+            $abc->with('User');
+        }])->where('is_verified', '>', '0')->get();
+        return response()->json(['data' => $verified]);
+    }
+
+    public function getFiltered($id)
+    {
+        if ($id == 0){
+            $verified = GroupProject::with(['Agency', 'Term', 'GroupProjectSupervisor' => function ($ccd) {
+                $ccd->with('Lecturer');
+            }, 'InternshipStudents' => function ($abc) {
+                $abc->with('User');
+            }])->where('is_verified', '>', '0')->get();
+        } else {
+            $verified = GroupProject::with(['Agency', 'Term', 'GroupProjectSupervisor' => function ($ccd) {
+                $ccd->with('Lecturer');
+            }, 'InternshipStudents' => function ($abc) {
+                $abc->with('User');
+            }])->where('is_verified', '>', '0')->where('term_id', $id)->get();
+        }
+        return response()->json(['data' => $verified]);
     }
 
     /**
@@ -81,5 +109,28 @@ class GroupProjectSupervisorController extends Controller
     public function destroy(GroupProjectSupervisor $groupProjectSupervisor)
     {
         //
+    }
+
+    public function export(Request $request)
+    {
+        $data = $request->filterTA;
+        if ($data == 0){
+            $verified = GroupProject::with(['Agency', 'Term', 'GroupProjectSupervisor' => function ($ccd) {
+                $ccd->with('Lecturer');
+            }, 'InternshipStudents' => function ($abc) {
+                $abc->with('User');
+            }])->where('is_verified', '>', '0')->get();
+        } else {
+            $verified = GroupProject::with(['Agency', 'Term', 'GroupProjectSupervisor' => function ($ccd) {
+                $ccd->with('Lecturer');
+            }, 'InternshipStudents' => function ($abc) {
+                $abc->with('User');
+            }])->where('is_verified', '>', '0')->where('term_id', $data)->get();
+        }
+        $term = Term::where('id', $data)->first();
+        return view('document.rekapPembimbing', [
+            'data' => $verified, 'semester' => $data, 'term' => $term
+        ]);
+        // return Excel::download(new SupervisorExport, 'Data Pembimbing PKL-PK.xlsx');
     }
 }

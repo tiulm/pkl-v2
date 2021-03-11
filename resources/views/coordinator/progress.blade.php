@@ -13,14 +13,24 @@
                 </h3>
             </div>
             <div class="card-body table-responsive">
+                    <div class="form-group">
+                        <label>Tahun Ajaran</label>
+                        <select name="filterTA" id="filterTA" class="form-control">
+                            <option value="0">Pilih Tahun Ajaran...</option>
+                            @foreach($term as $semester)
+                            <option id="getFilterTA" value="{{$semester->id}}">{{$semester->term}}</option>
+                            @endforeach
+                        </select>
+                    </div>
                 <table id="progress-detail" class="table table-striped table-light projects dataTable w-100">
                     <thead>
                         <tr>
-                            <th width='20%'>Kelompok</th>
-                            <th width='30%'>Pembimbing</th>
-                            <th width='20%'>Progress</th>
-                            <th width='15%'>Lihat Progress</th>
-                            <th width='15%'>Aksi</th>
+                            <th width='15%'>Tahun Ajaran</th>
+                            <th width='25%'>Kelompok</th>
+                            <th width='25%'>Pembimbing</th>
+                            <th width='15%'>Progress</th>
+                            <th width='10%'>Lihat Progress</th>
+                            <th width='10%'>Aksi</th>
                         </tr>
                     </thead>
                 </table>
@@ -134,15 +144,20 @@
     $("#progress-detail").DataTable({
         "processing": true,
         "order": [[ 2, "asc" ]],
+        "destroy" : true,
         "ajax": {
             url: "{{ url('../koor/bimbingan/show') }}"
         },
-        "columns": [{
+        "columns": [
+            {
+                data: "term.term"
+            },
+            {
                 sortable: false,
                 "render": function(data, type, full, meta) {
                     let img = ''
                     for (let i = 0; i < full.internship_students.length; i++) {
-                        img += '<img src="../public/image/' + full.internship_students[i].user.image_profile + '" data-toggle="tooltip" data-placement="bottom" class="table-avatar m-1" title="' + full.internship_students[i].name + '">'
+                        img += '<text>'+ full.internship_students[i].name +'</text><br>'
                     }
                     return img
                 }
@@ -169,8 +184,8 @@
                 sortable: false,
                 "render": function(data, type, full, meta) {
                     let buttonId = full.id;
-                    return '<button id="' + buttonId + '" class="btn btn-primary btn-sm mx-1 groupProgress" title="Progress PK"><i class="fas fa-users"></i></button>' +
-                    '<a href="bimbingan/pkl/' + buttonId + '" class="btn btn-info btn-sm internProgress" title="Progress PKL"><i class="fas fa-user"></i></a>'
+                    return '<button id="' + buttonId + '" class="btn btn-primary btn-block btn-xs groupProgress" title="Progress PK">Kelompok</button>' +
+                    '<a href="bimbingan/pkl/' + buttonId + '" class="btn btn-info btn-xs btn-block internProgress" title="Progress PKL">Individu</i></a>'
                 }
             },
             {
@@ -179,12 +194,76 @@
                     let buttonId = full.id;
                     let button = '';
                     if (full.is_verified == 1) {
-                        button = '<button id="' + buttonId + '" class="btn btn-success btn-sm bimbingan" title="Update Progress"><i class="fas fa-spinner"></i> Update Progress</button>'
+                        button = '<button id="' + buttonId + '" class="btn btn-success btn-sm bimbingan" title="Update Progress">Update Progress</button>'
                     }
                     return button
                 }
             }
         ]
+    });
+
+    $("#filterTA").on('change', function(){
+        let id = $('#filterTA').val();
+        $("#progress-detail").DataTable({
+            "processing": true,
+            "order": [[ 2, "asc" ]],
+            "destroy" : true,
+            "ajax": {
+                url: "../koor/bimbingan/showFiltered/" + id,
+            },
+            "columns": [
+                {
+                    data: "term.term"
+                },
+                {
+                    sortable: false,
+                    "render": function(data, type, full, meta) {
+                        let img = ''
+                        for (let i = 0; i < full.internship_students.length; i++) {
+                            img += '<text>'+ full.internship_students[i].name +'</text><br>'
+                        }
+                        return img
+                    }
+                },
+                {
+                    data: "group_project_supervisor.lecturer.name"
+                },
+                {
+                    sortable: false,
+                    "render": function(data, type, full, meta) {
+                        if(full.progress == 100){
+                            return '<span class="badge badge-success p-2">Siap / Sedang Seminar</span>'
+                        }
+                        else {
+                            return '<div class="progress progress-sm">' +
+                                '<div class="progress-bar progress-bar-striped progress-bar-animated bg-success" role="progressbar" aria-volumenow="' + full.progress + '" aria-volumemin="0" aria-volumemax="100" style="width:' + full.progress + '%">' +
+                                '</div>' +
+                                '</div>' +
+                                '<small>' + full.progress + '% Complete</small>'
+                        }
+                    }
+                },
+                {
+                    sortable: false,
+                    "render": function(data, type, full, meta) {
+                        let buttonId = full.id;
+                        return '<button id="' + buttonId + '" class="btn btn-primary btn-block btn-xs groupProgress" title="Progress PK">Kelompok</button>' +
+                        '<a href="bimbingan/pkl/' + buttonId + '" class="btn btn-info btn-xs btn-block internProgress" title="Progress PKL">Individu</i></a>'
+                    }
+                },
+                {
+                    sortable: false,
+                    "render": function(data, type, full, meta) {
+                        let buttonId = full.id;
+                        let button = '';
+                        if (full.is_verified == 1) {
+                            button = '<button id="' + buttonId + '" class="btn btn-success btn-sm bimbingan" title="Update Progress">Update Progress</button>'
+                        }
+                        return button
+                    }
+                }
+            ]
+        });
     });
 
     $('#progress-detail tbody').on('click', '.groupProgress', function() {

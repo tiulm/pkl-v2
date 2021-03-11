@@ -41,8 +41,8 @@ class GroupProjectController extends Controller
     public function edit($id)
     {
         $job = Jobdesc::orderBy('status', 'desc')->get();
-        $pk = GroupProject::with(['Agency', 'InternshipStudents.User', 'InternshipStudents' => function ($abc) {
-            $abc->with(['Jobdescs', 'File']);
+        $pk = GroupProject::with(['Agency', 'Assessment', 'InternshipStudents.User', 'InternshipStudents' => function ($abc) {
+            $abc->with(['Jobdescs', 'File', 'Observer', 'Assessment']);
         }])->where('id', $id)->first();
 
         $ini = Auth::user()->InternshipStudent->id;
@@ -55,7 +55,7 @@ class GroupProjectController extends Controller
                     $gue = 1;
                 }
             }
-            if ($gue == 1 && $pk->is_verified != 4) {
+            if ($gue == 1) {
                 return view('college_student.edit', compact(['pk', 'mhs', 'gue', 'job']));
             } else{
                 echo '<script type="text/javascript">

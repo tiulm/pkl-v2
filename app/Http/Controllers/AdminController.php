@@ -9,6 +9,7 @@ use App\InternshipStudent;
 use App\User;
 use App\Role;
 use App\GroupProject;
+use App\Assessment;
 use Dotenv\Validator;
 use App\Exports\InternshipStudentExport;
 use App\Exports\LecturerExport;
@@ -30,7 +31,7 @@ class adminController extends Controller
 
     public function get()
     {
-        $collegeStudents = InternshipStudent::with('User')->orderby('id', 'DESC')->get();
+        $collegeStudents = InternshipStudent::with(['User', 'Observer'])->orderby('id', 'DESC')->get();
         return response()->json(['data' => $collegeStudents]);
     }
 
@@ -70,6 +71,7 @@ class adminController extends Controller
         $mahasiswa->nim = $request->input('nim');
         $mahasiswa->name = $request->input('name');
         $mahasiswa->angkatan = $request->input('angkatan');
+        $mahasiswa->history = $request->input('riwayat');
         $mahasiswa->gender = $request->input('gender');
         $mahasiswa->status = $request->input('status');
         $mahasiswa->ip_sem = $request->input('ipSemester');
@@ -110,6 +112,7 @@ class adminController extends Controller
         $mahasiswa->nim = $request->input('editnim');
         $mahasiswa->name = $request->input('editname');
         $mahasiswa->angkatan = $request->input('editangkatan');
+        $mahasiswa->history = $request->input('editriwayat');
         $mahasiswa->gender = $request->input('editgender');
         $mahasiswa->status = $request->input('editstatus');
         $mahasiswa->ip_sem = $request->input('editipSemester');
@@ -130,15 +133,15 @@ class adminController extends Controller
 
     public function arsipKoor()
     {
-        $verified = GroupProject::with(['Agency', 'GroupProjectExaminer.Lecturer', 'GroupProjectSchedule', 'InternshipStudents' => function($abc) {
-            $abc->with('User');
+        $verified = GroupProject::with(['Agency', 'Assessment', 'GroupProjectExaminer.Lecturer', 'GroupProjectSchedule.Term', 'InternshipStudents' => function($abc) {
+            $abc->with('User', 'Assessment');
         }])->where('is_verified', '4')->get();
         return response()->json(['data' => $verified]);
     }
     public function arsipAdmin()
     {
-        $verified = GroupProject::with(['Agency', 'GroupProjectExaminer.Lecturer', 'GroupProjectSchedule', 'InternshipStudents' => function($abc) {
-            $abc->with('User');
+        $verified = GroupProject::with(['Agency', 'Assessment', 'GroupProjectExaminer.Lecturer', 'GroupProjectSchedule.Term', 'InternshipStudents' => function($abc) {
+            $abc->with('User', 'Assessment');
         }])->where('is_verified', '>=', '4')->get();
         return response()->json(['data' => $verified]);
     }

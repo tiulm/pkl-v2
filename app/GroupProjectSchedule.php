@@ -11,11 +11,14 @@ class GroupProjectSchedule extends Model
     protected $table = 'group_projects_schedules';
     protected $appends = ['day', 'tanggal'];
     protected $fillable = [
-        'date', 'place', 'time', 'time_end', 'group_project_id', 'quota'
+        'date', 'place', 'time', 'time_end', 'group_project_id', 'quota', 'term_id'
     ];
 
     public function GroupProject() {
         return $this->belongsTo('App\GroupProject');
+    }
+    public function Term() {
+        return $this->belongsTo('App\Term');
     }
     public function InternshipStudents() {
         return $this->belongsToMany('App\InternshipStudent', 'observers', 'internship_student_id', 'group_project_schedule_id');

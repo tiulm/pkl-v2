@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use App\InternshipStudent;
 use App\GroupProject;
 use App\Agency;
+use App\Term;
 use App\Lecturer;
 use App\GroupProjectSupervisor;
 use Auth;
@@ -23,7 +24,8 @@ class GroupProjectProgressController extends Controller
     public function index()
     {
         $verified = GroupProject::all();
-        return view('coordinator.progress');
+        $term = Term::all();
+        return view('coordinator.progress', compact('term'));
     }
 
     public function indexPK()
@@ -142,11 +144,29 @@ class GroupProjectProgressController extends Controller
      */
     public function show()
     {
-        $verified = GroupProject::with(['Agency', 'GroupProjectSupervisor' => function($ccd){
+        $verified = GroupProject::with(['Agency', 'Term', 'GroupProjectSupervisor' => function($ccd){
             $ccd->with('Lecturer');
         }, 'InternshipStudents' => function($abc) {
             $abc->with('User');
         }])->whereBetween('is_verified', [1, 3])->get();
+        return response()->json(['data' => $verified]);
+    }
+
+    public function showFiltered($id)
+    {
+        if ($id!=0){
+            $verified = GroupProject::with(['Agency', 'Term', 'GroupProjectSupervisor' => function($ccd){
+                $ccd->with('Lecturer');
+            }, 'InternshipStudents' => function($abc) {
+                $abc->with('User');
+            }])->whereBetween('is_verified', [1, 3])->where('term_id', $id)->get();
+        } else {
+            $verified = GroupProject::with(['Agency', 'Term', 'GroupProjectSupervisor' => function($ccd){
+                $ccd->with('Lecturer');
+            }, 'InternshipStudents' => function($abc) {
+                $abc->with('User');
+            }])->whereBetween('is_verified', [1, 3])->get();
+        }
         return response()->json(['data' => $verified]);
     }
 
@@ -246,5 +266,28 @@ class GroupProjectProgressController extends Controller
     public function destroy(GroupProjectProgress $groupProjectProgress)
     {
         //
+    }
+
+    public function cetakPK($id){
+        $pk = GroupProject::with(['GroupProjectProgress', 'InternshipStudents', 'GroupProjectSupervisor.Lecturer'])->where('id', $id)->first();
+        $p = GroupProjectProgress::where('group_project_id', $pk->id)->get();
+        // dd($pk);
+
+        return view('document.group', compact(['pk', 'p']));
+    }
+
+    public function cetakLog($id){
+        $mhs = InternshipStudent::with(['LogAct', 'GroupProjects'])->where('id', $id)->first();
+        // $log = InternshipLogActivity::with(['InternshipStudent'])->where('internship_student_id', $id)->get();
+        // dd($mhs);
+
+        return view('document.logact', compact(['mhs']));
+    }
+
+    public function cetakPKL($id){
+        $pk = InternshipStudent::with(['InternProgress', 'GroupProjects'])->where('id', $id)->first();
+        // dd($pk);
+
+        return view('document.intern', compact(['pk']));
     }
 }

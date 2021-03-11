@@ -254,7 +254,9 @@
                 sortable: false,
                 "render": function(data, type, full, meta) {
                     return '<b>' + moment(full.group_project_schedule.date).format('D MMMM YYYY') + '</b><br><small>' + full.group_project_schedule.place + '<br>' +
-                    moment(full.group_project_schedule.time, 'HH:mm:ss').format('HH:mm') + '-' + moment(full.group_project_schedule.time_end, 'HH:mm:ss').format('HH:mm') + ' WITA</small>'
+                    moment(full.group_project_schedule.time, 'HH:mm:ss').format('HH:mm') + '-' + moment(full.group_project_schedule.time_end, 'HH:mm:ss').format('HH:mm') + 
+                    ' WITA</small><br>'+
+                        '<b>' + full.group_project_schedule.term.term + '</b>'
                 }
             },
             {
@@ -262,13 +264,9 @@
                 "render": function (data, type, full, meta) {
                     let img = ''
                     for (let i = 0; i < full.internship_students.length; i++) {
-                        img += '<a href=../public/image/' + full.internship_students[i].user
-                            .image_profile + ' target="_blank"><img src="../public/image/' + full
-                            .internship_students[i].user.image_profile +
-                            '" data-toggle="tooltip" data-placement="bottom" class="table-avatar m-1" title="' +
-                            full.internship_students[i].name + '"></a>'
+                        img += '<text>'+ full.internship_students[i].name +'</text><br>'
                     }
-                    return full.title + '<br><br>' +img
+                    return '<b>' + full.title + '</b><br><br>' +img
                 }
             },
             {
@@ -285,11 +283,22 @@
             {
                 sortable: false,
                 "render": function(data, type, full, meta) {
-                    if(full.laporan === null){
-                        return '<span class="badge badge-danger p-2 ml-1">Laporan Belum Dikumpul</span>'
+                    let laporan = ''
+                    let nilai = ''
+
+                    if (full.laporan == null){
+                        laporan = '<span class="badge badge-danger p-2 ml-1">Laporan Belum Dikumpul</span>'
                     } else {
-                        return '<span class="badge badge-success p-2 m-1">Laporan Sudah Dikumpul</span>'
+                        laporan = '<span class="badge badge-success p-2 m-1">Laporan Sudah Dikumpul</span>'
                     }
+
+                    if (full.assessment.length == 0){
+                        nilai = '<span class="badge badge-danger p-2 m-1">Belum Dinilai</span>'
+                    } else{
+                        nilai = '<span class="badge badge-success p-2 m-1">Sudah Dinilai</span>'
+                    }
+
+                    return laporan+nilai
                 }
             },
             {

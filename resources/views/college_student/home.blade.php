@@ -528,7 +528,10 @@
                                     <a class="description">{{$jobdesc->jobname}}</a>
                                     @endforeach
                                 </div>
-                            </li>
+                            <!-- </li>
+                            @if ($anggota->Assessment->count() != 0)
+                            <a href="groupEdit/{{ $anggota->id }}" type="button" class="btn btn-outline-success btn-light btn-xs"><i class="fas fa-award"></i> Lihat Nilai</a>
+                            @endif -->
                             @endforeach
                         </ul>
                     </div>
@@ -665,11 +668,18 @@
                             @endif
                             @endif
                         </div>
-                        <h3 class="text-primary"><i class="fas fa-edit"></i> Judul</h3>
+                        <h3 class="text-primary"><i class="fas fa-edit"></i> Judul Proyek Kelompok</h3>
                         @if($anggota->title === null)
-                        <span class=" badge badge-danger">Harus diisi sebelum mendaftar seminar!</span>
+                        <span class="badge badge-danger">Harus diisi sebelum mendaftar seminar!</span>
                         @else
                         <h5 class="text-muted font-weight-bold">{{$anggota->title}}</h5>
+                        @endif
+                        <br>
+                        <h3 class="text-success"><i class="fas fa-edit"></i> Judul Praktek Kerja Lapangan</h3>
+                        @if(Auth::user()->InternshipStudent->title === null)
+                        <span class="badge badge-danger">Harus diisi sebelum mendaftar seminar!</span>
+                        @else
+                        <h5 class="text-muted font-weight-bold">{{Auth::user()->InternshipStudent->title}}</h5>
                         @endif
                         <br><br>
                         <div class="row">
@@ -805,7 +815,11 @@
                         <form id="formEdit" method="POST">
                             @csrf
                             <div class="form-group col-12">
-                                <label for="judul">Judul</label>
+                                <label for="judul">Judul PKL</label>
+                                <textarea rows="3" name="editJudulPKL" id="editJudulPK" class="form-control" required>{{ Auth::user()->InternshipStudent->title }}</textarea>
+                            </div>
+                            <div class="form-group col-12">
+                                <label for="judul">Judul PK</label>
                                 <textarea rows="3" name="editJudul" id="editJudul" class="form-control" required>{{$anggota->title}}</textarea>
                             </div>
                             <div class="form-group col-12">
@@ -864,6 +878,7 @@
                                 <span aria-hidden="true">×</span>
                             </button>
                         </div>
+                        @if (($noHistory == 0) && ($anggota->InternshipStudents->where('title', null)->count() == 0))
                         <div class="modal-body">
                             <p>*Semua file diupload dengan file ekstensi <b>pdf</b> dan ukuran <b>max 1mb</b></p>
                             <hr>
@@ -883,16 +898,16 @@
                             <h6>
                                 Anggota
                             </h6>
-                            @foreach($anggota->InternshipStudents as $key => $anggota)
+                            @foreach($anggota->InternshipStudents as $key => $mhs)
                             <div class="row">
                                 <div class="form-group col-6">
                                     <label for="nim">NIM</label>
                                     <input type="text" class="form-control" id="nim" name="nim"
-                                        value="{{$anggota->nim}}" readonly>
+                                        value="{{$mhs->nim}}" readonly>
                                 </div>
                                 <div class="form-group col-6">
                                     <label for="nama">Nama</label>
-                                    <input type="text" class="form-control" id="nama" value="{{$anggota->name}}"
+                                    <input type="text" class="form-control" id="nama" value="{{$mhs->name}}"
                                         readonly>
                                 </div>
                                 <div class="form-group col-6">
@@ -914,6 +929,14 @@
                         <div class="modal-footer">
                             <button class="btn btn-primary float-right float-right">Ajukan</button>
                         </div>
+                        @else
+                        <div class="modal-body">
+                            <p><b class="text-danger font-italic">Belum Dapat Mengajukan Seminar!</b><br>
+                            Salah seorang anggota kelompok <b>belum memiliki riwayat seminar</b> atau <b>belum menginputkan Judul PKL</b>.<br>
+                            <a href="groupEdit/{{ $anggota->id }}" type="button">Cek Di Sini</a>
+                            </p>
+                        </div>
+                        @endif
                     </form>
                 </div>
             </div>

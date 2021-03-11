@@ -17,9 +17,9 @@
                     <thead>
                         <tr>
                             <th width='15%'>Tanggal</th>
+                            <th width='20%'>Kelompok</th>
                             <th>Judul</th>
                             <th>Instansi</th>
-                            <th width='20%'>Kelompok</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -37,18 +37,15 @@
                                 </small>
                             </td>
                             <td>
+                                @foreach($s->InternshipStudents as $i)
+                                <p>{{ $i->name }}</p>
+                                @endforeach
+                            </td>
+                            <td>
                                 {{ $s->title }}
                             </td>
                             <td>
                                 {{ $s->Agency->agency_name }}
-                            </td>
-                            <td>
-                                @foreach($s->InternshipStudents as $i)
-                                <a href="../public/image/{{ $i->User->image_profile }}" target="_blank">
-                                    <img src="../public/image/{{ $i->User->image_profile }}" data-toggle="tooltip"
-                                        data-placement="bottom" class="table-avatar m-1" title="{{ $i->name }}">
-                                </a>
-                                @endforeach
                             </td>
                         </tr>
                         @endif

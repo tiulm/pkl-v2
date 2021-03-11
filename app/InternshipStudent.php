@@ -74,4 +74,8 @@ class InternshipStudent extends Model
     public function LogAct() {
         return $this->hasMany('App\InternshipLogActivity');
     }
+
+    public function Assessment() {
+        return $this->hasOne('App\Assessment');
+    }
 }

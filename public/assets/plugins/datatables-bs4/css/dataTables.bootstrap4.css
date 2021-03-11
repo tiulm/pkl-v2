@@ -6,7 +6,9 @@ table.dataTable {
   border-collapse: separate !important;
   border-spacing: 0;
 }
-table.dataTable td,
+table.dataTable td {
+  vertical-align: middle;
+}
 table.dataTable th {
   -webkit-box-sizing: content-box;
   box-sizing: content-box;

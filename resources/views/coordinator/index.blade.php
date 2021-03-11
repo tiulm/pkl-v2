@@ -144,7 +144,7 @@
             </div>
             <div class="modal-footer">
                 <strong>Jika sudah terjadi perbincangan antara dosen dan mahasiswa, maka rekomendasi dapat dihapus.<br><br>
-                Jika mahasiswa tidak kunjung menemui dosen bersangkutan, maka status dapat diubah kembali ke "Belum ada mahasiswa" dengan tombol "<i class="fas fa-stop-circle"></i>"</strong>
+                Jika mahasiswa tidak kunjung menemui dosen bersangkutan, maka status dapat diubah kembali ke "Belum ada mahasiswa" dengan tombol "Batalkan"</strong>
             </div>
         </div>
     </div>

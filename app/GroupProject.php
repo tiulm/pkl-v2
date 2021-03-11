@@ -28,6 +28,14 @@ class GroupProject extends Model
         return $this->belongsTo('App\Agency');
     }
 
+    public function Term() {
+        return $this->belongsTo('App\Term');
+    }
+
+    public function Assessment() {
+        return $this->hasMany('App\Assessment');
+    }
+
     public function InternshipStudentGroupProject() {
         return $this->hasMany(InternshipStudentGroupProject::class);
     }

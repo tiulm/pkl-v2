@@ -25,11 +25,18 @@ class CollegeStudentController extends Controller
     public function index()
     {
         $job = Jobdesc::orderBy('status', 'desc')->get();
-        $anggota = GroupProject::with(['Agency', 'GroupProjectSchedule', 'InternshipStudents.Jobdescs', 'InternshipStudents.User', 'GroupProjectSupervisor.Lecturer'])
+        $anggota = GroupProject::with(['Agency', 'Assessment', 'GroupProjectSchedule', 'InternshipStudents.Jobdescs', 'InternshipStudents.User', 'InternshipStudents.Observer', 'InternshipStudents.Assessment', 'GroupProjectSupervisor.Lecturer'])
             ->find(Auth::user()->InternshipStudent->getGroupProjectId());
+        
         if ($anggota !== null) {
+            $history = [];
+            foreach ($anggota->InternshipStudents as $key => $i){
+                $history[$key] = $i->history + $i->Observer->count();
+            }
+            $noHistory = count(array_keys($history, 0));
+
             $fck = GroupProjectExaminer::with('Lecturer')->where('group_project_id', $anggota->id)->get();
-            return view('college_student.home', compact(['job', 'anggota', 'fck']));
+            return view('college_student.home', compact(['job', 'anggota', 'fck', 'noHistory']));
         }
         
         return view('college_student.home', compact(['job', 'anggota']));
@@ -51,6 +58,10 @@ class CollegeStudentController extends Controller
         $project->Agency->address = $request->input('editAlamat');
         $project->Agency->phone_number = $request->input('editKontak');
         $project->Agency->update();
+        
+        $pkl = InternshipStudent::where('id', Auth::user()->InternshipStudent->id)->first();
+        $pkl->title = $request->input('editJudulPKL');
+        $pkl->update();
 
         if ($project->save()) {
             return response()->json("success");

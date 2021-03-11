@@ -18,7 +18,7 @@
                         @csrf
                         <div class="card-body">
                             <div class="text-center">
-                                <img src="{{ asset('image/'.$user->image_profile) }}" width="150px" height="150px" class="img-circle mb-2">
+                                <img src="public/image/{{ $user->image_profile }}" width="150px" height="150px" class="img-circle mb-2">
                                 @if(Auth::user()->isStudent())
                                 <h2 class="lead"><b>{{ Auth::user()->InternshipStudent->name }}</b></h2>
                                 <h4 class="lead">{{ Auth::user()->InternshipStudent->nim }}</h4>

@@ -51,7 +51,7 @@ class NewsReportController extends Controller
      */
     public function show($id)
     {
-        $groupProject = GroupProject::with(['Agency', 'GroupProjectSchedule', 'InternshipStudents' => function ($abc) {
+        $groupProject = GroupProject::with(['Agency', 'GroupProjectSchedule.Term', 'InternshipStudents' => function ($abc) {
             $abc->with(['Jobdescs', 'File']);
         }])->find($id);
         $groupProjectCount = GroupProject::withCount(['InternshipStudents'])->where('id', $id)->first();

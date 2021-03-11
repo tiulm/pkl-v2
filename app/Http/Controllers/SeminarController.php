@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\GroupProject;
 use App\Lecturer;
+use App\Term;
 use App\Observer;
 use App\GroupProjectSchedule;
 use App\GroupProjectExaminer;
@@ -20,13 +21,15 @@ class SeminarController extends Controller
     public function index()
     {
         $verified = GroupProject::all();
-        return view('coordinator.seminar');
+        $term = Term::all();
+        return view('coordinator.seminar', compact('term'));
     }
 
     public function examiner()
     {
         $examiner = Lecturer::all();
-        return view('coordinator.seminar') . compact('examiner');
+        $term = Term::all();
+        return view('coordinator.seminar') . compact('examiner', 'term');
     }
 
     /**
@@ -36,10 +39,10 @@ class SeminarController extends Controller
      */
     public function get()
     {
-        $verified = GroupProject::with(['Agency', 'GroupProjectSupervisor' => function ($ccd) {
+        $verified = GroupProject::with(['Agency', 'Term', 'GroupProjectSupervisor' => function ($ccd) {
             $ccd->with('Lecturer');
         }, 'InternshipStudents' => function ($abc) {
-            $abc->with('User');
+            $abc->with(['User', 'Observer']);
         }])->where('is_verified', '2')->get();
         return response()->json(['data' => $verified]);
     }
@@ -68,14 +71,16 @@ class SeminarController extends Controller
     public function terima($id)
     {
         $getIsVerif = GroupProject::with('GroupProjectSupervisor.Lecturer')->findOrFail($id);
+        $term = Term::all();
         // dd($getIsVerif);
-        return response()->json(['data' => $getIsVerif]);
+        return response()->json(['data' => $getIsVerif, 'term' => $term]);
     }
     public function seminar()
     {
-        $verified = GroupProject::with(['Agency', 'GroupProjectExaminer.Lecturer', 'GroupProjectSchedule.Observer', 'InternshipStudents' => function ($abc) {
-            $abc->with('User');
+        $verified = GroupProject::with(['Agency', 'GroupProjectExaminer.Lecturer', 'GroupProjectSchedule.Observer','GroupProjectSchedule.Term', 'InternshipStudents' => function ($abc) {
+            $abc->with(['User', 'Observer']);
         }])->where('is_verified', '3')->get();
+        // dd($verified);
         
         return response()->json(['data' => $verified]);
         
@@ -91,6 +96,7 @@ class SeminarController extends Controller
      */
     public function verifikasi(Request $request, $id)
     {
+        // dd($request);
         $this->validate(
             $request,
             [
@@ -111,6 +117,7 @@ class SeminarController extends Controller
             'time_end' => $request->waktuSelesai,
             'quota' => $request->kuota,
             'group_project_id' => $id,
+            'term_id' => $request->tahunAjaran,
         ]);
         $penguji = new Lecturer();
         $penguji = ([
@@ -174,9 +181,10 @@ class SeminarController extends Controller
      */
     public function getSeminar($id)
     {
-        $groupProject = GroupProject::with(['GroupProjectSupervisor.Lecturer', 'GroupProjectSchedule'])->findOrFail($id);
+        $groupProject = GroupProject::with(['GroupProjectSupervisor.Lecturer', 'GroupProjectSchedule.Term'])->findOrFail($id);
         $examiner = GroupProjectExaminer::with(['Lecturer'])->where('group_project_id', $groupProject->id)->get();
-        return response()->json(['data' => $groupProject, 'examiner' => $examiner]);
+        $term = Term::all();
+        return response()->json(['data' => $groupProject, 'examiner' => $examiner, 'term' => $term]);
     }
 
     /**
@@ -196,6 +204,7 @@ class SeminarController extends Controller
         $jadwal->time = $request->input('editStart');
         $jadwal->time_end = $request->input('editEnd');
         $jadwal->quota = $request->input('editKuota');
+        $jadwal->term_id = $request->input('editTahunAjaran');
         $jadwal->update();
         $i = 1;
         foreach ($examiner as $val) {

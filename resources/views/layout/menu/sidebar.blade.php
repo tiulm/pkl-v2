@@ -124,7 +124,35 @@
               Rekomendasi PKL dan PK
           </a>
         </li>
-        </li>
+          <li class="nav-item has-treeview">
+            <a href="#" class="{{(request()->is('koor/rekapNilai')) || (request()->is('koor/rekapPenguji')) || (request()->is('koor/rekapPembimbing')) ? 'active' : ''}} nav-link">
+              <i class="nav-icon fas fa-archive"></i>
+              <p>
+                Rekap PKL dan PK
+                <i class="right fas fa-angle-left"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="{{ url ('koor/rekapNilai') }}" class="{{(request()->is('koor/rekapNilai')) ? 'active' : ''}} nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Nilai</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="{{ url ('koor/rekapPenguji') }}" class="{{(request()->is('koor/rekapPenguji')) ? 'active' : ''}} nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Penguji</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="{{ url ('koor/rekapPembimbing') }}" class="{{(request()->is('koor/rekapPembimbing')) ? 'active' : ''}} nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Pembimbing</p>
+                </a>
+              </li>
+            </ul>
+          </li>
         @endif
         @if(Auth::user()->isAdmin())
         <li class="nav-header font-weight-bold">Data</li>
@@ -150,6 +178,12 @@
           <a href="{{ url ('admin/arsip-pk') }}" class="{{(request()->is('admin/arsip-pk')) ? 'active' : ''}} nav-link">
             <i class="nav-icon fas fa-book"></i>
               Data PKL dan PK
+          </a>
+        </li>
+        <li class="nav-item">
+          <a href="{{ url ('admin/semester') }}" class="{{(request()->is('admin/semester')) ? 'active' : ''}} nav-link">
+            <i class="nav-icon fas fa-chalkboard"></i>
+              Data Tahun Ajaran
           </a>
         </li>
         @endif

@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>Daftar Hadir Seminar PKL dan PK</title>
+    <title>Bimbingan PK</title>
     <style>
         body {
             margin: 0;
@@ -116,42 +116,20 @@
     <div class="book">
         <div class="page">
             <div class="subpage">
-                <div class="page-header">
-                    <table style="border-bottom: 5px solid black;">
-                        <tr>
-                            <td width="15%"><img src="{{ asset('image/ulm.png') }}" alt="" class="w-100"></td>
-                            <td align="center">
-                                <div style="font-size:16pt">KEMENTERIAN PENDIDIKAN DAN KEBUDAYAAN</div>
-                                <div style="font-size:14pt">UNIVERSITAS LAMBUNG MANGKURAT</div>
-                                <div style="font-size:14pt">FAKULTAS TEKNIK</div>
-                                <div style="font-size:14pt"><b>PROGRAM STUDI TEKNOLOGI INFORMASI</b></div>
-                                <div>Alamat  Jl. Achmad Yani Km. 35,5 Banjarbaru-Kalimantan Selatan 70714</div>
-                                <div>Telepon/Fax. : (0511) 4773858-4773868</div>
-                                <div>Laman: http://www.ft.ulm.ac.id</div>
-                            </td>
-                        </tr>
-                    </table>
-                </div>
-                <div class="page-body">
-                    <div class="page-title">DAFTAR HADIR PESERTA<br>SEMINAR PRAKTIK KERJA LAPANGAN DAN PROYEK KELOMPOK</div>
-                    <div class="mt-25">
-                        <table width="100%" style="border-collapse: separate; border-spacing: 0 5px;">
+                <div class="page-body" style="margin-top:100px">
+                    <div class="page-title"><u>LEMBAR BIMBINGAN PROYEK KELOMPOK</u></div>
+                    <div class="mt-50">
+                        <table width="100%" style="border-collapse: separate; border-spacing: 0 10px;">
                             <tr>
-                                <td width="20%">Hari / Tanggal</td>
+                                <td width="20%">Judul</td>
                                 <td width="5%">:</td>
-                                <td>{{ $groupProject->GroupProjectSchedule->day }}, {{ $groupProject->GroupProjectSchedule->tanggal }}</td>
-                            </tr>
-                            <tr>
-                                <td width="20%">Jam / Ruang</td>
-                                <td width="5%">:</td>
-                                <td>{{ Carbon\Carbon::parse($groupProject->GroupProjectSchedule->time)->isoFormat('HH.mm') }} -
-                                    {{ Carbon\Carbon::parse($groupProject->GroupProjectSchedule->time_end)->isoFormat('HH.mm') }} WITA / {{ $groupProject->GroupProjectSchedule->place }}</td>
+                                <td align="justify">{{ $pk->title }}</td>
                             </tr>
                             <tr>
                                 <td width="20%">Mahasiswa / NIM</td>
                                 <td width="5%">:</td>
                                 <td>
-                                    @foreach ($groupProject->InternshipStudents as $i)
+                                    @foreach ($pk->InternshipStudents as $i)
                                     {{ $i->name }} / {{ $i->nim }}<br>
                                     @endforeach
                                 </td>
@@ -159,12 +137,7 @@
                             <tr>
                                 <td width="20%">Pembimbing</td>
                                 <td width="5%">:</td>
-                                <td>{{ $supervisors->Lecturer->name }}</td>
-                            </tr>
-                            <tr>
-                                <td width="20%">Judul</td>
-                                <td width="5%">:</td>
-                                <td align="justify">{{ $groupProject->title }}</td>
+                                <td>{{ $pk->GroupProjectSupervisor->Lecturer->name }}</td>
                             </tr>
                         </table>
                     </div>
@@ -172,23 +145,77 @@
                         <table class="table-info" style="margin-top:5px">
                             <tr>
                                 <th width="5%">No.</th>
-                                <th width="50%">NAMA</th>
-                                <th width="25%">NIM</th>
-                                <th width="20%">TANDA TANGAN</th>
+                                <th width="10%">Tanggal</th>
+                                <th width="60%">Uraian</th>
+                                <th width="25%">TTD Dosen Pembimbing</th>
                             </tr>
-                            @for ($i=1; $i < 16; $i++)
-                            <tr>
-                                <td align="center">{{ $i }}</td>
+                            <?php $i = 0; ?>
+                            @while($i<$p->count() && $i<8)
+                            <tr height="70px">
+                                <td align="center">{{ $i+1 }}</td>
+                                <td>{{ Carbon\Carbon::parse($p[$i]->date)->isoFormat('DD/MM/YY') }}</td>
+                                <td align="justify">{{ $p[$i]->description }}</td>
                                 <td></td>
-                                <td></td>
-                                <td @if ($i%2 == 0) align="center" @endif>{{ $i }}</td>
                             </tr>
-                            @endfor
+                            <?php $i++; ?>
+                            @endwhile
                         </table>
                     </div>
                 </div>
             </div>
         </div>
+        @if($p->count() > 8)
+        <div class="page">
+            <div class="subpage">
+                <div class="page-body" style="margin-top:100px">
+                    <div class="page-title"><u>LEMBAR BIMBINGAN PROYEK KELOMPOK</u></div>
+                    <div class="mt-50">
+                        <table width="100%" style="border-collapse: separate; border-spacing: 0 10px;">
+                            <tr>
+                                <td width="20%">Judul</td>
+                                <td width="5%">:</td>
+                                <td align="justify">{{ $pk->title }}</td>
+                            </tr>
+                            <tr>
+                                <td width="20%">Mahasiswa / NIM</td>
+                                <td width="5%">:</td>
+                                <td>
+                                    @foreach ($pk->InternshipStudents as $i)
+                                    {{ $i->name }} / {{ $i->nim }}<br>
+                                    @endforeach
+                                </td>
+                            </tr>
+                            <tr>
+                                <td width="20%">Pembimbing</td>
+                                <td width="5%">:</td>
+                                <td>{{ $pk->GroupProjectSupervisor->Lecturer->name }}</td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="mt-25">
+                        <table class="table-info" style="margin-top:5px">
+                            <tr>
+                                <th width="5%">No.</th>
+                                <th width="10%">Tanggal</th>
+                                <th width="60%">Uraian</th>
+                                <th width="25%">TTD Dosen Pembimbing</th>
+                            </tr>
+                            <?php $i = 8; ?>
+                            @while($i<$p->count() && $i<16)
+                            <tr height="70px">
+                                <td align="center">{{ $i+1 }}</td>
+                                <td>{{ Carbon\Carbon::parse($p[$i]->date)->isoFormat('DD/MM/YY') }}</td>
+                                <td align="justify">{{ $p[$i]->description }}</td>
+                                <td></td>
+                            </tr>
+                            <?php $i++; ?>
+                            @endwhile
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        @endif
     </div>
 
 

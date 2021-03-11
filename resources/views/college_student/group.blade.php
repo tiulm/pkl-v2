@@ -8,13 +8,16 @@
             <div class="col-6">
                 <h5>Proyek Kelompok</h5>
             </div>
-            @if(Auth::user()->isVerifiedGroupProject() < 4)
             <div class="col-6">
+                @if(Auth::user()->isVerifiedGroupProject() < 4)
                 <div class="float-right">
-                <button onclick="openModalProgres('{{ $group->id }}')" class="btn btn-primary btn-sm progresKel float-right"><i class="fas fa-plus mr-1"></i> Tambah Progress</button>
+                    <button onclick="openModalProgres('{{ $group->id }}')" class="btn btn-primary btn-sm progresKel mr-1 float-right"><i class="fas fa-plus mr-1"></i>Tambah Progress</button>
+                </div>
+                @endif
+                <div class="float-right">
+                    <button onclick="window.open('pk/cetakProgressPK/{{ $group->id }}')" target="_blank" class="btn btn-success btn-sm cetakProgresKel mr-1 float-right"><i class="fas fa-print mr-1"></i>Cetak Progress</button>
                 </div>
             </div>
-            @endif
         </div>
         <div class="card card-primary">
             <div class="card-header">
@@ -24,7 +27,7 @@
                 </h5>
             </div>
             <div class="card-body table-responsive">
-                <table id="kelompokPro" class="table table-striped w-100">       
+                <table id="kelompokPro" class="table dataTable table-striped w-100">       
                     <thead>
                         <tr>
                             <th width="10%">No.</th>

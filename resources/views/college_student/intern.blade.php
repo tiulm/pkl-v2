@@ -24,9 +24,10 @@
                         @if(Auth::user()->isVerifiedGroupProject() < 4)
                         <button onclick="openModalProgres('{{Auth::user()->InternshipStudent->id}}')" class="btn btn-primary btn-sm progresKel float-right"><i class="fas fa-plus"></i> Tambah</button>
                         @endif
+                        <button onclick="window.open('pkl/cetakProgressPKL/{{ Auth::user()->InternshipStudent->id }}')" target="_blank" class="btn btn-primary btn-sm cetakPKL mr-1 float-right"><i class="fas fa-print mr-1"></i>Cetak</button>
                     </div>
                     <div class="card-body table-responsive">
-                        <table id="internPro" class="table table-striped w-100">       
+                        <table id="internPro" class="table dataTable table-striped w-100">       
                             <thead>
                                 <tr>
                                     <th width="5%">No.</th>
@@ -72,6 +73,7 @@
                         @if(Auth::user()->isVerifiedGroupProject() < 4)
                         <button onclick="openModalLog('{{Auth::user()->InternshipStudent->id}}')" class="btn btn-secondary btn-sm progresKel float-right"><i class="fas fa-plus"></i> Tambah</button>
                         @endif
+                        <button onclick="window.open('pkl/cetakLog/{{ Auth::user()->InternshipStudent->id }}')" target="_blank" class="btn btn-secondary btn-sm cetakLog mr-1 float-right"><i class="fas fa-print mr-1"></i>Cetak</button>
                     </div>
                     <div class="card-body table-responsive">
                         <table id="logAct" class="table table-striped w-100">       
