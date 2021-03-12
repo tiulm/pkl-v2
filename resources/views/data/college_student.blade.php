@@ -322,7 +322,7 @@
             {
                 sortable: false,
                 "render": function (data, type, full, meta) {
-                    return '<img src="../public/image/' + full.user.image_profile +
+                    return '<img src="../image/' + full.user.image_profile +
                         '" data-toggle="tooltip" data-placement="bottom" class="img-circle table-avatar" width="40px">'
                 }
             },

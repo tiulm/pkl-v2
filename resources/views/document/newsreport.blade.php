@@ -125,9 +125,9 @@
                                 <div style="font-size:14pt">UNIVERSITAS LAMBUNG MANGKURAT</div>
                                 <div style="font-size:14pt">FAKULTAS TEKNIK</div>
                                 <div style="font-size:14pt"><b>PROGRAM STUDI TEKNOLOGI INFORMASI</b></div>
-                                <div>Alamat  Jl. Achmad Yani Km. 35,5 Banjarbaru-Kalimantan Selatan 70714</div>
-                                <div>Telepon/Fax. : (0511) 4773858-4773868</div>
-                                <div>Laman: http://www.ft.ulm.ac.id</div>
+                                <div>Alamat : Jl. Brigjend. H. Hasan Basry Banjarmasin – Kalimantan Selatan 70123</div>
+                                <div>Telepon (0511) 3304405 , 3304503 Faksimile (0511) 3304503</div>
+                                <div>Laman : ti.ft.unlam.ac.id, Surel : ti@unlam.ac.id</div>
                             </td>
                         </tr>
                     </table>
@@ -249,9 +249,9 @@
                                 <div style="font-size:14pt">UNIVERSITAS LAMBUNG MANGKURAT</div>
                                 <div style="font-size:14pt">FAKULTAS TEKNIK</div>
                                 <div style="font-size:14pt"><b>PROGRAM STUDI TEKNOLOGI INFORMASI</b></div>
-                                <div>Alamat  Jl. Achmad Yani Km. 35,5 Banjarbaru-Kalimantan Selatan 70714</div>
-                                <div>Telepon/Fax. : (0511) 4773858-4773868</div>
-                                <div>Laman: http://www.ft.ulm.ac.id</div>
+                                <div>Alamat : Jl. Brigjend. H. Hasan Basry Banjarmasin – Kalimantan Selatan 70123</div>
+                                <div>Telepon (0511) 3304405 , 3304503 Faksimile (0511) 3304503</div>
+                                <div>Laman : ti.ft.unlam.ac.id, Surel : ti@unlam.ac.id</div>
                             </td>
                         </tr>
                     </table>
@@ -323,9 +323,9 @@
                             <div style="font-size:14pt">UNIVERSITAS LAMBUNG MANGKURAT</div>
                             <div style="font-size:14pt">FAKULTAS TEKNIK</div>
                             <div style="font-size:14pt"><b>PROGRAM STUDI TEKNOLOGI INFORMASI</b></div>
-                            <div>Alamat  Jl. Achmad Yani Km. 35,5 Banjarbaru-Kalimantan Selatan 70714</div>
-                            <div>Telepon/Fax. : (0511) 4773858-4773868</div>
-                            <div>Laman: http://www.ft.ulm.ac.id</div>
+                            <div>Alamat : Jl. Brigjend. H. Hasan Basry Banjarmasin – Kalimantan Selatan 70123</div>
+                            <div>Telepon (0511) 3304405 , 3304503 Faksimile (0511) 3304503</div>
+                            <div>Laman : ti.ft.unlam.ac.id, Surel : ti@unlam.ac.id</div>
                         </td>
                     </tr>
                 </table>
@@ -469,9 +469,9 @@
                             <div style="font-size:14pt">UNIVERSITAS LAMBUNG MANGKURAT</div>
                             <div style="font-size:14pt">FAKULTAS TEKNIK</div>
                             <div style="font-size:14pt"><b>PROGRAM STUDI TEKNOLOGI INFORMASI</b></div>
-                            <div>Alamat  Jl. Achmad Yani Km. 35,5 Banjarbaru-Kalimantan Selatan 70714</div>
-                            <div>Telepon/Fax. : (0511) 4773858-4773868</div>
-                            <div>Laman: http://www.ft.ulm.ac.id</div>
+                            <div>Alamat : Jl. Brigjend. H. Hasan Basry Banjarmasin – Kalimantan Selatan 70123</div>
+                            <div>Telepon (0511) 3304405 , 3304503 Faksimile (0511) 3304503</div>
+                            <div>Laman : ti.ft.unlam.ac.id, Surel : ti@unlam.ac.id</div>
                         </td>
                     </tr>
                 </table>
@@ -616,9 +616,9 @@
                             <div style="font-size:14pt">UNIVERSITAS LAMBUNG MANGKURAT</div>
                             <div style="font-size:14pt">FAKULTAS TEKNIK</div>
                             <div style="font-size:14pt"><b>PROGRAM STUDI TEKNOLOGI INFORMASI</b></div>
-                            <div>Alamat  Jl. Achmad Yani Km. 35,5 Banjarbaru-Kalimantan Selatan 70714</div>
-                            <div>Telepon/Fax. : (0511) 4773858-4773868</div>
-                            <div>Laman: http://www.ft.ulm.ac.id</div>
+                            <div>Alamat : Jl. Brigjend. H. Hasan Basry Banjarmasin – Kalimantan Selatan 70123</div>
+                            <div>Telepon (0511) 3304405 , 3304503 Faksimile (0511) 3304503</div>
+                            <div>Laman : ti.ft.unlam.ac.id, Surel : ti@unlam.ac.id</div>
                         </td>
                     </tr>
                 </table>
@@ -764,9 +764,9 @@
                                 <div style="font-size:14pt">UNIVERSITAS LAMBUNG MANGKURAT</div>
                                 <div style="font-size:14pt">FAKULTAS TEKNIK</div>
                                 <div style="font-size:14pt"><b>PROGRAM STUDI TEKNOLOGI INFORMASI</b></div>
-                                <div>Alamat  Jl. Achmad Yani Km. 35,5 Banjarbaru-Kalimantan Selatan 70714</div>
-                                <div>Telepon/Fax. : (0511) 4773858-4773868</div>
-                                <div>Laman: http://www.ft.ulm.ac.id</div>
+                                <div>Alamat : Jl. Brigjend. H. Hasan Basry Banjarmasin – Kalimantan Selatan 70123</div>
+                                <div>Telepon (0511) 3304405 , 3304503 Faksimile (0511) 3304503</div>
+                                <div>Laman : ti.ft.unlam.ac.id, Surel : ti@unlam.ac.id</div>
                             </td>
                         </tr>
                     </table>

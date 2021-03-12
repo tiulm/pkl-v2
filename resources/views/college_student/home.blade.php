@@ -519,8 +519,9 @@
                             @foreach($anggota->InternshipStudents as $team)
                             <li class="list-group-item">
                                 <div class="user-block">
-                                    <img class="img-circle img-bordered-sm"
-                                        src="../public/image/{{ $team->User->image_profile }}" alt="user image">
+                                <img class="img-circle img-bordered-sm"
+                                        
+                                        src="{{ asset('image/'.$team->user->image_profile) }}" alt="user image">
                                     <span class="username">
                                         <a>{{$team->name}}</a>
                                     </span>
