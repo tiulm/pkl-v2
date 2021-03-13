@@ -23,7 +23,7 @@
             <div class="card-header">
                 <h5 class="card-title">
                     <i class="fas fa-tasks mr-1"></i>
-                    Progress
+                    Progress Bimbingan Dosen Pembimbing
                 </h5>
             </div>
             <div class="card-body table-responsive">
@@ -84,11 +84,11 @@
                         <input name="groupId" type="hidden" value="" class="form-control" id="groupProgress" required>
                         <div class="form-group col-12">
                             <label for="tgl">Tanggal</label>
-                            <input name="tanggalProgress" type="date" value="" class="form-control" id="">
+                            <input name="tanggalProgress" type="date" value="" class="form-control" id="" required>
                         </div>
                         <div class="form-group col-12">
                             <label for="desc">Deskripsi</label>
-                            <textarea rows="3" name="deskripsiProgress" value="" class="form-control" id=""></textarea>
+                            <textarea rows="3" maxlength="190" name="deskripsiProgress" value="" class="form-control" id=""required></textarea>
                         </div>
                     </div>
                 </div>

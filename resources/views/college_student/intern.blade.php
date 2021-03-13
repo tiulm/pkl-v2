@@ -19,7 +19,7 @@
                     <div class="card-header">
                         <h5 class="card-title">
                             <i class="fas fa-tasks mr-1"></i>
-                            Progress
+                            Progress Bimbingan Dosen Pembimbing
                         </h5>
                         @if(Auth::user()->isVerifiedGroupProject() < 4)
                         <button onclick="openModalProgres('{{Auth::user()->InternshipStudent->id}}')" class="btn btn-primary btn-sm progresKel float-right"><i class="fas fa-plus"></i> Tambah</button>
@@ -127,11 +127,11 @@
                         <input name="internIdProgress" type="hidden" value="" class="form-control" id="internProgress" required>
                         <div class="form-group col-12">
                             <label for="tgl">Tanggal</label>
-                            <input name="tanggalProgress" type="date" value="" class="form-control" id="">
+                            <input name="tanggalProgress" type="date" value="" class="form-control" id=""required>
                         </div>
                         <div class="form-group col-12">
                             <label for="desc">Deskripsi</label>
-                            <textarea rows="3" name="deskripsiProgress" value="" class="form-control" id=""></textarea>
+                            <textarea rows="3" maxlength="190" name="deskripsiProgress" value="" class="form-control" id=""required></textarea>
                         </div>
                     </div>
                 </div>
@@ -162,11 +162,11 @@
                         <input name="internIdLog" type="hidden" value="" class="form-control" id="internLog" required>
                         <div class="form-group col-12">
                             <label for="tgl">Tanggal</label>
-                            <input name="tanggalLog" type="date" value="" class="form-control" id="">
+                            <input name="tanggalLog" type="date" value="" class="form-control" id=""required>
                         </div>
                         <div class="form-group col-12">
                             <label for="desc">Deskripsi</label>
-                            <textarea rows="3" name="deskripsiLog" value="" class="form-control" id=""></textarea>
+                            <textarea rows="3" maxlength="190" name="deskripsiLog" value="" class="form-control" id=""required></textarea>
                         </div>
                     </div>
                 </div>
