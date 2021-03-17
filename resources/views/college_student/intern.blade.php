@@ -249,21 +249,18 @@
 
 @section('ajax')
 <script>
-    function openModalHapus([id]) {
+     function openModalHapus(id) {
         $('#hapus').modal();
         $('#group_hapus').val(id);
     }
-
-    function openModalLogHapus([id]) {
+    function openModalLogHapus(id) {
         $('#hapusLog').modal();
         $('#log_hapus').val(id);
     }
-
     function openModalProgres(id) {
         $('#modalProgress').modal();
         $('#internProgress').val(id);
     }
-
     function openModalLog(id) {
         $('#modalLog').modal();
         $('#internLog').val(id);
