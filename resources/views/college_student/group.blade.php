@@ -139,7 +139,7 @@
 
 @section('ajax')
 <script>
-    function openModalHapus([id]) {
+    function openModalHapus(id) {
         $('#hapus').modal();
         $('#group_hapus').val(id);
     }
