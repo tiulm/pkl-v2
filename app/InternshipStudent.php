@@ -15,7 +15,7 @@ class InternshipStudent extends Model
     }
     public function GroupProjectSchedules()
     {
-        return $this->belongsToMany('App\GroupProjectSchedule', 'observers', 'internship_student_id', 'group_project_schedule_id');
+        return $this->belongsToMany('App\GroupProjectSchedule', 'observers', 'internship_student_id', 'group_project_schedule_id')->withDefault();
     }
     public function Observer() {
         return $this->hasMany(Observer::class);
