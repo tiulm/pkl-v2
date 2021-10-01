@@ -717,7 +717,7 @@
                                     <div class="row">
                                         <div class="col-6">
                                             <p class="text-sm">Tempat
-                                                <b class="d-block">{{$anggota->GroupProjectSchedule->place}}</b>
+                                                <b class="d-block">{{$anggota->GroupProjectSchedule->place ??''}}</b>
                                             </p>
                                             <p class="text-sm">Tanggal & Waktu
                                                 <b class="d-block">{{ $anggota->GroupProjectSchedule->day }}, {{ $anggota->GroupProjectSchedule->tanggal }}</b>
